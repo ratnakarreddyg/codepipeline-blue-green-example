@@ -1,0 +1,38 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  
+  "Description" : "Web Stack",
+  
+  "Resources" : {
+    "ELB" : {
+      "Type" : "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties" : {
+        "Listeners": [
+          {
+            "LoadBalancerPort" : "80",
+            "InstancePort": "80",
+            "Protocol": "TCP"
+          }
+        ],
+        
+        "AvailabilityZones" : { "Fn::GetAZs" : "" },
+        
+        "HealthCheck": {
+          "Target": "TCP:80",
+          "HealthyThreshold": "3",
+          "Interval": "5",
+          "Timeout": "3",
+          "UnhealthyThreshold": "2"
+        },
+        
+        "ConnectionDrainingPolicy": {
+          "Enabled" : "true",
+          "Timeout" : "60"
+        },
+        
+        "CrossZone": "true"
+      }
+    }
+  }
+
+}

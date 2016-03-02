@@ -1,0 +1,34 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  
+  "Description" : "Web Stack",
+  
+  "Parameters" : {
+    "AmiId" : {
+      "Description" : "AMI Id to use",
+      "Type" : "AWS::EC2::Image::Id",
+      "Default" : "ami-60b6c60a"
+    }
+  },
+  
+  "Resources" : {
+    "WebLaunchConfig" : {
+      "Type" : "AWS::AutoScaling::LaunchConfiguration",
+      "Properties" : {
+        "ImageId" : { "Ref" : "AmiId" },
+        "InstanceType" : "t2.medium"
+      }
+    },
+  
+    "WebAutoScalingGroup" : {
+      "Type" : "AWS::AutoScaling::AutoScalingGroup",
+      "Properties" : {
+        "AvailabilityZones" : { "Fn::GetAZs" : "" },
+        "LaunchConfigurationName" : { "Ref" : "WebLaunchConfig" },
+        "MinSize" : "1",
+        "MaxSize" : "10"
+      }
+    }
+  }
+
+}
