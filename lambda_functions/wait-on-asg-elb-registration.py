@@ -126,7 +126,7 @@ def handler(event, context):
     elb_stack_prefix = job_params['elb_stack_prefix']
     elb_stack_name = elb_stack_prefix + '-' + build_id
     
-    associate_asg_with_elb(asg_stack_name, elb_stack_name)
+    wait_for_asg_elb_registration(asg_stack_name, elb_stack_name)
     put_job_success(job_id, 'ASG has been associated with the ELB')
     
   except Exception as e:
